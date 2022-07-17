@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-              appBar: AppBar(
+        appBar: AppBar(
           elevation: 0,
           leading: Icon(
             Icons.home_filled,
@@ -42,50 +42,52 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: RefreshIndicator(
-          onRefresh: () => myRefreshState(),
-          child: FutureBuilder<bool>(
-            future: getapinews(HomePage.onPage),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data == true) {
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      //myNews.clear;
-                      if (index != myNews.length)
-                        return NewsCard(myNews[index], context);
-                      return Container(
-                          margin: EdgeInsets.only(
-                              left: 100, right: 100, top: 10, bottom: 10),
-                          child: ElevatedButton(
-                            child: Text("Load More"),
-                            onPressed: () {
-                              HomePage.onPage++;
-                              setState(() {});
-                            },
-                          ));
-                    },
-                    itemCount: myNews.length + 1,
-                  );
-                } else {
-                  Center(
-                    child: Text("Error"),
-                  );
+            onRefresh: () => myRefreshState(),
+            child: FutureBuilder<bool>(
+              future: getapinews(HomePage.onPage),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data == true) {
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        //myNews.clear;
+                        if (index != myNews.length)
+                          return NewsCard(myNews[index], context);
+                        return Container(
+                            margin: EdgeInsets.only(
+                                left: 100, right: 100, top: 10, bottom: 10),
+                            child: ElevatedButton(
+                              child: Text("Load More"),
+                              onPressed: () {
+                                HomePage.onPage++;
+                                setState(() {});
+                              },
+                            ));
+                      },
+                      itemCount: myNews.length + 1,
+                    );
+                  } else {
+                    Center(
+                      child: Text("Error"),
+                    );
+                  }
                 }
-              }
 
-              return SpinKitCircle(
-                color: Colors.blue,
-              );
-            },
-          ))
-    );
+                return SpinKitCircle(
+                  color: Colors.blue,
+                );
+              },
+            )));
   }
-    Future<bool> myRefreshState() async {
+
+  Future<bool> myRefreshState() async {
     await getapinews(1);
     setState(() {});
     return true;
   }
-   Future<bool> getapinews(page) async {
+
+  Future<bool> getapinews(page) async {
+    if (myNews.length ~/ page == 20) return true;
     // if (firstget) return;
     Response response = await get(Uri.parse(
       "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=d3142f6d8ad4470992ddf9e1ea969f7e&page=$page",
