@@ -9,7 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../Functions/getWeekDay.dart';
-import '../Items/FavoritList.dart';
+import '../Items/FavoriteList.dart';
 import '../Items/MyNews.dart';
 import '../Kits/Colors.dart';
 
@@ -190,16 +190,18 @@ class _DetailNewsState extends State<DetailNews> {
                                 borderRadius: BorderRadius.circular(30)),
                             child: IconButton(
                                 onPressed: (() {
-                                  setState(() {});
-                                  FavoritList.getInstance()
-                                      .setFavoriteList(appnews, context);
+                                  setState(() {
+                                    FavoriteList.getInstance()
+                                        .setFavoriteList(appnews, context);
+                                    print("setstate-detail");
+                                  });
                                 }),
                                 icon: Icon(
-                                  FavoritList.getInstance().getInList(appnews)
+                                  FavoriteList.getInstance().getInList(appnews)
                                       ? Icons.favorite
                                       : Icons.favorite_outline,
                                   size: 25,
-                                  color: FavoritList.getInstance()
+                                  color: FavoriteList.getInstance()
                                           .getInList(appnews)
                                       ? Colors.red
                                       : Colors.black87,

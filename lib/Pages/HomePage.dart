@@ -72,7 +72,6 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
                 }
-
                 return SpinKitCircle(
                   color: Colors.blue,
                 );
@@ -81,20 +80,30 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<bool> myRefreshState() async {
-    await getapinews(1);
+    var response = await getapinews(0);
+    HomePage.onPage = 1;
+
     setState(() {});
-    return true;
+    return await response;
   }
 
   Future<bool> getapinews(page) async {
-    if (myNews.length ~/ page == 20) return true;
+    try {
+      if (myNews.length ~/ page == 20) return true;
+    } on IntegerDivisionByZeroException catch (e) {
+      if (page == 0) {
+        print("called");
+        myNews.clear();
+        page = 1;
+      }
+    }
     // if (firstget) return;
+
     Response response = await get(Uri.parse(
       "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=d3142f6d8ad4470992ddf9e1ea969f7e&page=$page",
     ));
     if (response.statusCode != 200) return false;
     var body = jsonDecode(utf8.decode(response.bodyBytes));
-    if (page == 1) myNews.clear();
 
     for (var data in body["articles"]) {
       myNews.add(MyNews(
@@ -106,7 +115,7 @@ class _HomePageState extends State<HomePage> {
           data["urlToImage"].toString(),
           data["publishedAt"].toString()));
 
-      print(myNews[myNews.length - 1].urlToImage);
+      // print(myNews[myNews.length - 1].urlToImage);
     }
     //setState(() {});
 

@@ -25,12 +25,10 @@ Widget NewsCard(MyNews appnews, context) {
                 topLeft: Radius.circular(10),
                 bottomLeft: Radius.circular(10)),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DetailNews(
-                            appnews: appnews,
-                          )));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => DetailNews(
+                        appnews: appnews,
+                      )));
             },
             child: Container(
               decoration: BoxDecoration(
