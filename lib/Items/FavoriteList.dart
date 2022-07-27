@@ -38,7 +38,7 @@ class FavoriteList {
 
   get getFavoritList => _favorites;
   static FavoriteList getInstance() {
-    _instance ??= FavoriteList();
+    if (_instance == null) _instance = FavoriteList();
     return _instance;
   }
 }

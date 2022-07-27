@@ -26,7 +26,7 @@ class _AccountPageState extends State<AccountPage> {
           alignment: Alignment.center,
           height: 400,
           width: 500,
-          child: ListView(children: [
+          child: Column(children: [
             Material(
               borderRadius: BorderRadius.circular(20),
               child: TextField(
@@ -48,7 +48,6 @@ class _AccountPageState extends State<AccountPage> {
               height: 20,
             ),
             Material(
-              
               borderRadius: BorderRadius.circular(20),
               child: TextField(
                 controller: passwordController,
@@ -64,7 +63,6 @@ class _AccountPageState extends State<AccountPage> {
                 ),
                 obscureText: true,
                 textAlign: TextAlign.center,
-                
               ),
             ).addNeumorphism(),
             Padding(
